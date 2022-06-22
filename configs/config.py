@@ -2,6 +2,12 @@ from typing import Optional
 from pathlib import Path
 from .utils import ConfigsManager
 
+# WSL虚拟机下自动获取寄主机ip
+import platform
+if platform.system() == 'Linux' and platform.platform().find("WSL") != -1:
+    import os
+    hostip = os.popen("cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }'").read().split('\n')[0]
+
 
 # 回复消息名称
 NICKNAME: str = "小真寻"
@@ -18,6 +24,7 @@ port: str = ""  # 数据库端口
 database: str = ""  # 数据库名称
 
 # 代理，例如 "http://127.0.0.1:7890"
+# 如果 使用WSL虚拟机 可：f"http://{hostip}:7890" 
 SYSTEM_PROXY: Optional[str] = None  # 全局代理
 
 
